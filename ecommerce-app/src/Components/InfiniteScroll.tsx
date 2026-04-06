@@ -2,20 +2,20 @@ import ProductCard from "./Product";
 import { useEffect, useState } from "react";
 import type{ ProductItem } from "../App";
 
-const InfiniteScroll = ({products,fetchData,loading,error}:{products:ProductItem[];fetchData:(page:number)=> Promise<any>;
-loading:boolean;error:null|Error})=>{
-const[page,setPage] = useState(1);
-const [cart, setCart] = useState<ProductItem[]>([]);
+type InfiniteScrollProps = {
+products:ProductItem[];
+fetchData:(page:number)=>Promise<any>;
+loading:boolean;
+error:Error | null;
+onAddToCart:(product:ProductItem)=>void;
 
-const handleAddToCart = (product: ProductItem) => {
-  setCart((prevCart) => [...prevCart, product]);
+
 };
 
-useEffect(()=>{
-console.log("Cart Updated:",cart);
+const InfiniteScroll = ({products,fetchData,loading,error,onAddToCart}:InfiniteScrollProps
+)=>{
+const[page,setPage] = useState(1);
 
-
-},[cart]);
 //Function to handle Scroll event
 const handleScroll = ()=>{
 const bottom = Math.ceil(window.innerHeight + window.scrollY) >=
@@ -39,7 +39,7 @@ window.removeEventListener("scroll",handleScroll);
 
 
 
-},[]);
+},[loading]);
 
 return(
 <div>
@@ -48,7 +48,7 @@ return(
 <ProductCard
  product={product}
  key={product.id}
-onAddToCart={handleAddToCart}/>
+onAddToCart={onAddToCart}/>
 
 ))}
 

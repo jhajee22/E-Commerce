@@ -43,15 +43,10 @@ return (
 <span>{Math.floor(product.rating)}</span>
         </div>
       </div>
-<button onClick={()=>{
-
-console.log("Clicked",product);
-onAddToCart(product);
-
-}} className="add-to-cart">Add to Cart</button>
+<button onClick={() =>onAddToCart(product)} className="add-to-cart">Add to Cart</button>
 <div>
 
-<h3>Cart Items:</h3>
+
 
 </div>
     </div>

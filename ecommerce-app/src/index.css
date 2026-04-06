@@ -92,3 +92,30 @@ font-family:"Poppins",sans-serif;
 .add-to-cart:hover {
   background-color: #45a049;
 }
+
+
+.main-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* LEFT SIDE */
+.products-section {
+  flex: 3;
+}
+
+/* RIGHT SIDE */
+.cart-section {
+  flex: 1;
+}
+
+/* CART BOX */
+.cart-panel {
+  position: sticky;
+  top: 20px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f9f9f9;
+}

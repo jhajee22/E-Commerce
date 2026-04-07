@@ -65,6 +65,27 @@ const handleAddToCart = (product: ProductItem) => {
   });
 };
 
+ const handleDecreaseQuantity = (id:number)=>{
+setCart((prevCart)=>{
+const existingItem = prevCart.find((item)=>item.id===id);
+if(!existingItem){
+return prevCart;
+}
+if(existingItem.quantity===1){
+return prevCart.filter((item)=>item.id !==id);
+}
+return prevCart.map((item)=>
+item.id===id ? {...item,quantity:item.quantity - 1} : item
+);
+});
+};
+
+const handleIncreaseQuantity = (id:number)=>{
+setCart((prevCart)=>
+prevCart.map((item)=>item.id === id ? {...item,quantity:item.quantity  + 1}: item));
+
+};
+
 return (
 
 
@@ -85,7 +106,7 @@ onAddToCart={handleAddToCart}
 {/* RIGHT SIDE  */}
 
 <div className="cart-section">
-<CartPanel cart={cart}/>
+<CartPanel cart={cart} handleDecreaseQuantity={handleDecreaseQuantity} handleIncreaseQuantity={handleIncreaseQuantity}/>
 
 </div>
 

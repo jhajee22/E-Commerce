@@ -1,4 +1,3 @@
-import type {ProductItem} from "../../App";
 import type { CartItem } from "../../App";
 
 type CartPanelProps = {

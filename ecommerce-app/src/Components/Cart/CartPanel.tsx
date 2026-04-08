@@ -7,28 +7,47 @@ type CartPanelProps = {
 };
 
 const CartPanel = ({cart,handleDecreaseQuantity,handleIncreaseQuantity}:CartPanelProps)=>{
+const totalPrice = cart.reduce((total,item)=>{
+return total + item.price * item.quantity;
+},0)
+
+const totalItems = cart.reduce((total,item)=>{
+return total + item.quantity;
+
+},0)
 
 return (
   <div className="cart-panel">
     <h2>Cart</h2>
-    <p>Items:{cart.length}</p>
-    <div></div>
+    <p>Items:{totalItems}</p>
+    <p>Total :${totalPrice.toFixed(2)}</p>
+    
     {cart.map((item) => (
-      <p key={item.id}>
-        {item.title} - Qty: {item.quantity}
+      <div key={item.id} style={{ marginBottom: "14px" }}>
+        <div>
+          <strong>{item.title}</strong>
+        </div>
+
+        <div>Price: ${item.price.toFixed(2)}</div>
+
+        <div>Qty: {item.quantity}</div>
+
+        <div>Subtotal: ${(item.price * item.quantity).toFixed(2)}</div>
+
         <button
           onClick={() => handleDecreaseQuantity(item.id)}
-          style={{ marginLeft: "10px" }}
+          style={{ marginRight: "10px", marginTop: "6px" }}
         >
           -
         </button>
+
         <button
           onClick={() => handleIncreaseQuantity(item.id)}
-          style={{ marginLeft: "10px" }}
+          style={{ marginTop: "6px" }}
         >
           +
         </button>
-      </p>
+      </div>
     ))}
   </div>
 );

@@ -10,6 +10,7 @@ error:Error | null;
 onAddToCart:(product:ProductItem)=>void;
 
 
+
 };
 
 const InfiniteScroll = ({products,fetchData,loading,error,onAddToCart}:InfiniteScrollProps
@@ -41,22 +42,24 @@ window.removeEventListener("scroll",handleScroll);
 
 },[loading]);
 
-return(
-<div>
-<div className="products-list">
-{products.map((product,index)=>(
-<ProductCard
- product={product}
- key={product.id}
-onAddToCart={onAddToCart}/>
-
-))}
-
-</div>
-{loading && <p>Loading...</p>}
-{error && <p>Error:{error.message}</p>}
-</div>
-
+return (
+  <div>
+    <div className="products-list">
+      {products.length > 0 ? (
+        products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={onAddToCart}
+          />
+        ))
+      ) : (
+        <p>No products found</p>
+      )}
+    </div>
+    {loading && <p>Loading...</p>}
+    {error && <p>Error: {error.message}</p>}
+  </div>
 );
 
 };

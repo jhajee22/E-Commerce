@@ -1,6 +1,8 @@
-import React,{useState,useEffect} from "react";
+import {useState,useEffect} from "react";
 import InfiniteScroll from "./Components/InfiniteScroll";
 import CartPanel from "./Components/Cart/CartPanel";
+import { ToastContainer,toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 export type ProductItem = {
 id:number;
@@ -21,11 +23,35 @@ export type CartItem = ProductItem & {
 
 function App(){
 
-const[products,setProducts]= useState<CartItem[]>([]);
-const[cart,setCart] = useState<CartItem[]>([]);
-const [loading, setLoading] = useState(true);
+const[products,setProducts]= useState<ProductItem[]>([]);
+const[cart,setCart] = useState<CartItem[]>(()=>{
+const savedCart = localStorage.getItem("cart");
+return savedCart ? JSON.parse(savedCart):[];
+});
+const [loading, setLoading] = useState(false);
 const [error, setError] = useState<Error | null>(null);
+const [searchTerm,setSearchTerm] = useState("");
+const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+const[selectedCategory,setSelectedCategory] = useState("all");
+const categories = ["all",...new Set(products.map((product)=>product.category))];
+useEffect(()=>{
+const timer = setTimeout(()=>{
+setDebouncedSearchTerm(searchTerm);
+},500);
+return ()=>clearTimeout(timer);
+},[searchTerm]);
 
+//Function for showing Filtered Product 
+const filteredProducts = products.filter((product)=>{
+const matchesSearch = product.title
+.toLowerCase()
+.includes(debouncedSearchTerm.toLowerCase());
+const matchesCategory =
+  selectedCategory === "all" || product.category === selectedCategory;
+return matchesSearch && matchesCategory;
+}
+
+)
 
 //Function to fetch data from API
 const fetchData = async(page:number)=>{
@@ -51,6 +77,10 @@ fetchData(1);
 
 },[]);
 
+useEffect(()=>{
+localStorage.setItem("cart",JSON.stringify(cart));
+},[cart]);
+
 const handleAddToCart = (product: ProductItem) => {
   setCart((prevCart) => {
     const existingItem = prevCart.find((item) => item.id === product.id);
@@ -63,6 +93,7 @@ const handleAddToCart = (product: ProductItem) => {
     }
     return [...prevCart, { ...product, quantity: 1 }];
   });
+toast.success(`${product.title} added to Cart`);
 };
 
  const handleDecreaseQuantity = (id:number)=>{
@@ -87,30 +118,53 @@ prevCart.map((item)=>item.id === id ? {...item,quantity:item.quantity  + 1}: ite
 };
 
 return (
+  <div className="main-container">
+    {/* Left Side  */}
 
-
-<div className="main-container">
-{/* Left Side  */}
-
-<div className="product-section">
-<InfiniteScroll
-
-products={products}
-fetchData={fetchData}
-loading={loading}
-error={error}
-onAddToCart={handleAddToCart}
+    <div className="product-section">
+      <input 
+type="text"
+placeholder="Search Products..."
+value={searchTerm}
+onChange={(e)=>setSearchTerm(e.target.value)}
+style={{padding:"10px" ,width:"50%",marginBottom:"20px"}}
 />
 
-</div>
-{/* RIGHT SIDE  */}
+<select
+value={selectedCategory}
+onChange={(e)=>setSelectedCategory(e.target.value)}
+style={{
+padding:"10px",
+marginBottom:"20px",
+width:"100px"
+}}
+>
+{categories.map((category)=>(
+<option key={category} value={category}>
+{category}
+</option>
+))}
+</select>
+      <InfiniteScroll
+        products={filteredProducts}
+        fetchData={fetchData}
+        loading={loading}
+        error={error}
+        onAddToCart={handleAddToCart}
+      />
+    </div>
+    {/* RIGHT SIDE  */}
 
-<div className="cart-section">
-<CartPanel cart={cart} handleDecreaseQuantity={handleDecreaseQuantity} handleIncreaseQuantity={handleIncreaseQuantity}/>
+    <div className="cart-section">
+      <CartPanel
+        cart={cart}
+        handleDecreaseQuantity={handleDecreaseQuantity}
+        handleIncreaseQuantity={handleIncreaseQuantity}
+      />
+    </div>
+    <ToastContainer position="top-right" autoClose={2000} />
+  </div>
 
-</div>
-
-</div>
   // <div>
   //   <p>Cart Items:{cart.length}</p>
 

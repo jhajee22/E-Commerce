@@ -1,5 +1,8 @@
 import React,{useState,useEffect} from "react";
 import InfiniteScroll from "./Components/InfiniteScroll";
+import LoginPage from "./Components/LoginPage/Login";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 export type ProductItem = {
 id:number;
@@ -57,13 +60,15 @@ setError(error);
 
 return (
 <div>
-<InfiniteScroll
+{/* <InfiniteScroll
 products={products}
 fetchData={fetchData}
 loading={loading}
 error={error}
 
-/>
+/> */}
+<LoginPage/>
+<ToastContainer position="top-right" autoClose={2000}/>
 
 </div>
 

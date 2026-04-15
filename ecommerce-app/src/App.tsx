@@ -1,8 +1,9 @@
 import {useState,useEffect} from "react";
-import InfiniteScroll from "./Components/InfiniteScroll";
-import CartPanel from "./Components/Cart/CartPanel";
-import { ToastContainer,toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import HomePage from "./Components/HomePage";
+import ProductDetailsPage from "./Components/ProductDetailsPage";
 
 export type ProductItem = {
 id:number;
@@ -118,64 +119,32 @@ prevCart.map((item)=>item.id === id ? {...item,quantity:item.quantity  + 1}: ite
 };
 
 return (
-  <div className="main-container">
-    {/* Left Side  */}
-
-    <div className="product-section">
-      <input 
-type="text"
-placeholder="Search Products..."
-value={searchTerm}
-onChange={(e)=>setSearchTerm(e.target.value)}
-style={{padding:"10px" ,width:"50%",marginBottom:"20px"}}
-/>
-
-<select
-value={selectedCategory}
-onChange={(e)=>setSelectedCategory(e.target.value)}
-style={{
-padding:"10px",
-marginBottom:"20px",
-width:"100px"
-}}
->
-{categories.map((category)=>(
-<option key={category} value={category}>
-{category}
-</option>
-))}
-</select>
-      <InfiniteScroll
-        products={filteredProducts}
-        fetchData={fetchData}
-        loading={loading}
-        error={error}
-        onAddToCart={handleAddToCart}
+  <BrowserRouter>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <HomePage
+            products={filteredProducts}
+            cart={cart}
+            loading={loading}
+            error={error}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            categories={categories}
+            fetchData={fetchData}
+            handleAddToCart={handleAddToCart}
+            handleDecreaseQuantity={handleDecreaseQuantity}
+            handleIncreaseQuantity={handleIncreaseQuantity}
+          />
+        }
       />
-    </div>
-    {/* RIGHT SIDE  */}
 
-    <div className="cart-section">
-      <CartPanel
-        cart={cart}
-        handleDecreaseQuantity={handleDecreaseQuantity}
-        handleIncreaseQuantity={handleIncreaseQuantity}
-      />
-    </div>
-    <ToastContainer position="top-right" autoClose={2000} />
-  </div>
-
-  // <div>
-  //   <p>Cart Items:{cart.length}</p>
-
-  //   <InfiniteScroll
-  //     products={products}
-  //     fetchData={fetchData}
-  //     loading={loading}
-  //     error={error}
-  //     onAddToCart={handleAddToCart}
-  //   />
-  // </div>
+      <Route path="/product/:id" element={<ProductDetailsPage />} />
+    </Routes>
+  </BrowserRouter>
 );
 }
 

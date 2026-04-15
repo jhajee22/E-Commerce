@@ -1,4 +1,5 @@
-import type { ProductItem } from "../App";
+//import type { ProductItem } from "../App";
+import type { ProductItem } from "../types/product";
 import { useNavigate } from "react-router-dom";
 
 type ProductCardProps = {

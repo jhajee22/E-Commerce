@@ -1,7 +1,7 @@
 import InfiniteScroll from "./InfiniteScroll";
 import CartPanel from "./Cart/CartPanel";
 import { ToastContainer } from "react-toastify";
-import type { CartItem, ProductItem } from "../App";
+import type { CartItem, ProductItem } from "../types/product";
 
 type HomePageProps = {
   products: ProductItem[];

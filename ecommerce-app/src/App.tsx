@@ -4,23 +4,7 @@ import "react-toastify/dist/ReactToastify.css"
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./Components/HomePage";
 import ProductDetailsPage from "./Components/ProductDetailsPage";
-
-export type ProductItem = {
-id:number;
-title:string;
-description:string;
-category:string;
-price:number;
-rating:number;
-thumbnail:string;
-brand?:string;
-discountPercentage:number;
-};
-
-export type CartItem = ProductItem & {
-  quantity: number;
-
-};
+import type { CartItem,ProductItem } from "./types/product";
 
 function App(){
 

@@ -1,10 +1,10 @@
-import React,{useState,useEffect} from "react";
-import InfiniteScroll from "./Components/InfiniteScroll";
+import {useState,useEffect} from "react";
 import type {CartItem} from "./types/product";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./Components/HomePage";
 import Login from "./Components/LoginPage/Login";
 import ProductDetailsPage from "./Components/ProductDetailsPage";
+import {toast} from "react-toastify";
 
 export type ProductItem = {
 id:number;

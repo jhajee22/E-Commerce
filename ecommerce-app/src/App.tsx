@@ -117,8 +117,9 @@ prevCart.map((item)=>item.id === id ? {...item,quantity:item.quantity  + 1}: ite
 return (
   <BrowserRouter>
     <Routes>
+      <Route path="/" element={<Login />} />
       <Route
-        path="/"
+        path="/home"
         element={
           <HomePage
             products={filteredProducts}
@@ -137,7 +138,6 @@ return (
           />
         }
       />
-      <Route path="/login" element={<Login />} />
       <Route path="/product/:id" element={<ProductDetailsPage />} />
     </Routes>
   </BrowserRouter>

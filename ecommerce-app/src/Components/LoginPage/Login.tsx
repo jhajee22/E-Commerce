@@ -2,11 +2,14 @@ import { useState } from "react";
 import "./Login.css";
 import {toast} from "react-toastify";
 import { loginUser } from "../../services/authApi";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,8 +29,8 @@ localStorage.setItem("accessToken",data.accesstoken);
 //Store User
 localStorage.setItem("user",JSON.stringify(data));
 toast.success("Login Successsful ");
-
       console.log("Login success:", data);
+navigate("/home");
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);

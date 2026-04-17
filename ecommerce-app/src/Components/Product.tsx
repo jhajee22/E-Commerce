@@ -1,5 +1,6 @@
-import type { ProductItem } from "../App";
-
+//import type { ProductItem } from "../App";
+import type { ProductItem } from "../types/product";
+import { useNavigate } from "react-router-dom";
 
 type ProductCardProps = {
 product:ProductItem;
@@ -10,7 +11,10 @@ onAddToCart:(product:ProductItem)=>void;
 
 export const ProductCard = ({product,onAddToCart}:ProductCardProps)=>{
 
-
+const navigate = useNavigate();
+const handleViewDetails = ()=>{
+navigate(`/product/${product.id}`);
+};
 const discountedPrice = (
 
 product.price - (product.price * product.discountPercentage)/100).toFixed(2);
@@ -43,15 +47,11 @@ return (
 <span>{Math.floor(product.rating)}</span>
         </div>
       </div>
-<button onClick={()=>{
-
-console.log("Clicked",product);
-onAddToCart(product);
-
-}} className="add-to-cart">Add to Cart</button>
+<button onClick={handleViewDetails}>View Details</button>
+<button onClick={() =>onAddToCart(product)} className="add-to-cart">Add to Cart</button>
 <div>
 
-<h3>Cart Items:</h3>
+
 
 </div>
     </div>

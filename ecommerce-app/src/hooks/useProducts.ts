@@ -43,7 +43,12 @@ const useProducts = () => {
       );
       const data = await response.json();
 
-      setProducts((prev) => [...prev, ...data.products]);
+    //   setProducts((prev) => [...prev, ...data.products]);
+setProducts((prev)=>{
+const mergedProducts = [...prev, ...data.products];
+const uniqueProducts = Array.from(new Map(mergedProducts.map((item)=>[item.id,item])).values());
+return uniqueProducts;
+})
     } catch (err) {
       setError(err as Error);
     } finally {

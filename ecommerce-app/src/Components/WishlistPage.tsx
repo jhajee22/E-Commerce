@@ -1,7 +1,7 @@
 import type { ProductItem } from "../types/product";
 import { useWishlist } from "../context/WishlistContext";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 type WishlistPageProps = {
   products: ProductItem[];
   onAddToCart: (product: ProductItem) => void;
@@ -11,8 +11,12 @@ const WishlistPage = ({ products, onAddToCart }: WishlistPageProps) => {
   const { wishlist, removeFromWishList } = useWishlist();
   const navigate = useNavigate();
 
-  const wishlistProducts = products.filter((product) =>
-    wishlist.includes(product.id),
+  const wishlistProducts = Array.from(
+    new Map(
+      products
+        .filter((product) => wishlist.includes(product.id))
+        .map((product) => [product.id, product]),
+    ).values(),
   );
 
   return (
@@ -67,7 +71,12 @@ const WishlistPage = ({ products, onAddToCart }: WishlistPageProps) => {
                     Add to Cart
                   </button>
 
-                  <button onClick={() => removeFromWishList(product.id)}>
+                  <button
+                    onClick={() => {
+                      removeFromWishList(product.id);
+                      toast.info(`${product.title} removed from wishlist`);
+                    }}
+                  >
                     Remove from Wishlist
                   </button>
                 </div>

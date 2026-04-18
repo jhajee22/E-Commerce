@@ -1,6 +1,5 @@
 import InfiniteScroll from "./InfiniteScroll";
 import CartPanel from "./Cart/CartPanel";
-import { ToastContainer } from "react-toastify";
 import type { CartItem, ProductItem } from "../types/product";
 import { useWishlist } from "../context/WishlistContext";
 import { useNavigate } from "react-router-dom";
@@ -128,7 +127,7 @@ const HomePage = ({
         />
       </div>
 
-      <ToastContainer position="top-right" autoClose={2000} />
+      
     </div>
   );
 };

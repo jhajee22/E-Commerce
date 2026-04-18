@@ -6,7 +6,8 @@ import useCart from "./hooks/useCart";
 import useProducts from "./hooks/useProducts";
 import WishlistPage from "./Components/WishlistPage";
 import { WishlistProvider } from "./context/WishlistContext";
-
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App(){
 const {
   cart,
@@ -52,6 +53,7 @@ return (
         />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
       </Routes>
+      <ToastContainer position="top-right" autoClose={2000} />
     </BrowserRouter>
   </WishlistProvider>
 );

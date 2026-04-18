@@ -2,6 +2,8 @@ import InfiniteScroll from "./InfiniteScroll";
 import CartPanel from "./Cart/CartPanel";
 import { ToastContainer } from "react-toastify";
 import type { CartItem, ProductItem } from "../types/product";
+import { useWishlist } from "../context/WishlistContext";
+import { useNavigate } from "react-router-dom";
 
 type HomePageProps = {
   products: ProductItem[];
@@ -34,32 +36,80 @@ const HomePage = ({
   handleDecreaseQuantity,
   handleIncreaseQuantity,
 }: HomePageProps) => {
+  const navigate = useNavigate();
+  const { wishlist } = useWishlist();
+
   return (
     <div className="main-container">
       <div className="product-section">
-        <input
-          type="text"
-          placeholder="Search Products..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ padding: "10px", width: "50%", marginBottom: "20px" }}
-        />
-
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+        <div
           style={{
-            padding: "10px",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
             marginBottom: "20px",
-            width: "100px",
+            flexWrap: "wrap",
           }}
         >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+          <input
+            type="text"
+            placeholder="Search Products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ padding: "10px", width: "50%" }}
+          />
+
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            style={{
+              padding: "10px",
+              width: "120px",
+            }}
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={() => navigate("/wishlist")}
+            style={{
+              position: "relative",
+              padding: "10px 14px",
+              border: "1px solid #ddd",
+              borderRadius: "8px",
+              background: "#fff",
+              cursor: "pointer",
+              fontSize: "18px",
+            }}
+          >
+            ♥
+            {wishlist.length > 0 && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-8px",
+                  right: "-8px",
+                  background: "red",
+                  color: "white",
+                  borderRadius: "50%",
+                  minWidth: "22px",
+                  height: "22px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                }}
+              >
+                {wishlist.length}
+              </span>
+            )}
+          </button>
+        </div>
 
         <InfiniteScroll
           products={products}

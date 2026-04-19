@@ -1,7 +1,7 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import Login from "./Pages/LoginPage/Login";
-import ProductDetailsPage from "./Components/ProductDetailsPage";
+import ProductDetailsPage from "./Pages/ProductDetailsPage";
 import useCart from "./hooks/useCart";
 import useProducts from "./hooks/useProducts";
 import WishlistPage from "./Pages/WishlistPage";

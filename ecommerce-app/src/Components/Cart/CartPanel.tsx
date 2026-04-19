@@ -1,5 +1,5 @@
 import type {CartItem} from "../../types/product";
-
+import { useNavigate } from "react-router-dom";
 type CartPanelProps = {
   cart: CartItem[];
   handleDecreaseQuantity: (id: number) => void;
@@ -7,6 +7,7 @@ type CartPanelProps = {
 };
 
 const CartPanel = ({cart,handleDecreaseQuantity,handleIncreaseQuantity}:CartPanelProps)=>{
+const navigate = useNavigate();
 const totalPrice = cart.reduce((total,item)=>{
 return total + item.price * item.quantity;
 },0)
@@ -21,7 +22,7 @@ return (
     <h2>Cart</h2>
     <p>Items:{totalItems}</p>
     <p>Total :${totalPrice.toFixed(2)}</p>
-    
+
     {cart.map((item) => (
       <div key={item.id} style={{ marginBottom: "14px" }}>
         <div>
@@ -46,6 +47,21 @@ return (
           style={{ marginTop: "6px" }}
         >
           +
+        </button>
+        <button
+          style={{
+            marginTop: "15px",
+            padding: "10px",
+            width: "100%",
+            backgroundColor: "black",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/checkout")}
+        >
+          Proceed to Checkout
         </button>
       </div>
     ))}

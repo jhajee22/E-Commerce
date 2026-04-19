@@ -1,11 +1,7 @@
 import {useState} from "react"
 import type {AddressFormData} from "../../types/addressForm"
-type AddressFormProps = {
-  address: AddressFormData;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-};
+import {get} from "mongoose";
+import {getAddressByPincode} from "../../services/addressService";
 
 const AddressForm = () =>{
 
@@ -19,12 +15,58 @@ city:"",
 state:"",
 country:""
 });
+
+const [loading,setLoading] = useState(false);
+const [pincodeError,setPincodeError] = useState("");
+
+const fetchAddressFromPincode = async (pincode: string) => {
+  try {
+    setLoading(true);
+    setPincodeError("");
+
+    const data = await getAddressByPincode(pincode);
+
+    if (data?.[0]?.Status === "Success" && data?.[0]?.PostOffice?.length > 0) {
+      const postOffice = data[0].PostOffice[0];
+
+      setAddress((prev) => ({
+        ...prev,
+        city: postOffice.District || "",
+        state: postOffice.State || "",
+      }));
+    } else {
+      setPincodeError("Invalid pincode or no address found");
+    }
+  } catch (error) {
+    console.error("Pincode lookup failed:", error);
+    setPincodeError("Unable to fetch address details");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
 const {name,value} = e.target;
 setAddress((prev)=>({
 ...prev,
 [name]:value,
 }));
+if(name === "pincode"){
+setPincodeError(""); 
+}
+if(value.length === 6){
+fetchAddressFromPincode(value);
+}
+if(value.length < 6){
+setAddress((prev)=>({
+...prev,
+city:"",
+state:"",
+}));
+
+}
+
 };
 return (
   <div
@@ -67,6 +109,16 @@ return (
           placeholder="Enter Pincode"
           style={{ width: "100%", padding: "10px", marginTop: "6px" }}
         />
+        {loading && (
+          <p style={{ fontSize: "12px", color: "gray", marginTop: "6px" }}>
+            Fetching city and state...
+          </p>
+        )}
+        {pincodeError && (
+          <p style={{ fontSize: "12px", color: "red", marginTop: "6px" }}>
+            {pincodeError}
+          </p>
+        )}
       </div>
       <div style={{ marginBottom: "12px" }}>
         <label>Address Line</label>

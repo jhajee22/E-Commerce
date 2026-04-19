@@ -48,23 +48,23 @@ return (
         >
           +
         </button>
-        <button
-          style={{
-            marginTop: "15px",
-            padding: "10px",
-            width: "100%",
-            backgroundColor: "black",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/checkout")}
-        >
-          Proceed to Checkout
-        </button>
       </div>
     ))}
+    <button
+      style={{
+        marginTop: "15px",
+        padding: "10px",
+        width: "100%",
+        backgroundColor: "black",
+        color: "white",
+        border: "none",
+        borderRadius: "6px",
+        cursor: "pointer",
+      }}
+      onClick={() => navigate("/checkout")}
+    >
+      Proceed to Checkout
+    </button>
   </div>
 );
 

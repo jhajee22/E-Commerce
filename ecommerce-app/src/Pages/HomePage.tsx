@@ -50,6 +50,8 @@ navigate("/");
 
 }
 
+const totalCartItems = cart.reduce ((sum,item)=>sum + item.quantity,0);
+
   return (
     <div className="main-container">
       <div className="product-section">
@@ -121,6 +123,33 @@ navigate("/");
             )}
           </button>
 
+          <div
+            style={{ position: "relative", cursor: "pointer" }}
+            onClick={() => navigate("/cart")}
+          >
+            🛒
+            {totalCartItems > 0 && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-8px",
+                  right: "-10px",
+                  backgroundColor: "red",
+                  color: "white",
+                  borderRadius: "50%",
+                  minWidth: "20px",
+                  height: "20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "12px",
+                }}
+              >
+                {totalCartItems}
+              </span>
+            )}
+          </div>
+
           <button onClick={handleLogout} className="btn btn-outline-danger">
             Logout
           </button>
@@ -135,13 +164,7 @@ navigate("/");
         />
       </div>
 
-      <div className="cart-section">
-        <CartPanel
-          cart={cart}
-          handleDecreaseQuantity={handleDecreaseQuantity}
-          handleIncreaseQuantity={handleIncreaseQuantity}
-        />
-      </div>
+      <div className="cart-section"></div>
     </div>
   );
 };

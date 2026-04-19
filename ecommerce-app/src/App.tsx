@@ -10,6 +10,7 @@ import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import HomePage from "./Pages/HomePage";
+import CheckoutPage from "./Pages/CheckoutPage";
 function App(){
 const {
   cart,
@@ -59,6 +60,7 @@ return (
         />
 
         <Route path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="/checkout" element={<CheckoutPage cart={cart}/>} />
       </Routes>
       <ToastContainer position="top-right" autoClose={2000} />
     </BrowserRouter>

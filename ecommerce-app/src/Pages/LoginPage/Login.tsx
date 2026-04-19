@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Login.css";
 import {toast} from "react-toastify";
 import { loginUser } from "../../services/authApi";
@@ -10,6 +10,12 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 const navigate = useNavigate();
+useEffect(() => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    navigate("/home");
+  }
+}, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

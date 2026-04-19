@@ -1,13 +1,15 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import HomePage from "./Components/HomePage";
-import Login from "./Components/LoginPage/Login";
+
+import Login from "./Pages/LoginPage/Login";
 import ProductDetailsPage from "./Components/ProductDetailsPage";
 import useCart from "./hooks/useCart";
 import useProducts from "./hooks/useProducts";
-import WishlistPage from "./Components/WishlistPage";
+import WishlistPage from "./Pages/WishlistPage";
 import { WishlistProvider } from "./context/WishlistContext";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import HomePage from "./Pages/HomePage";
 function App(){
 const {
   cart,
@@ -28,29 +30,34 @@ return (
         <Route
           path="/home"
           element={
-            <HomePage
-              products={filteredProducts}
-              cart={cart}
-              loading={loading}
-              error={error}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              categories={categories}
-              fetchData={fetchData}
-              handleAddToCart={handleAddToCart}
-              handleDecreaseQuantity={handleDecreaseQuantity}
-              handleIncreaseQuantity={handleIncreaseQuantity}
-            />
+            <ProtectedRoute>
+              <HomePage
+                products={filteredProducts}
+                cart={cart}
+                loading={loading}
+                error={error}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                categories={categories}
+                fetchData={fetchData}
+                handleAddToCart={handleAddToCart}
+                handleDecreaseQuantity={handleDecreaseQuantity}
+                handleIncreaseQuantity={handleIncreaseQuantity}
+              />
+            </ProtectedRoute>
           }
         />
         <Route
           path="/wishlist"
           element={
-            <WishlistPage products={products} onAddToCart={handleAddToCart} />
+            <ProtectedRoute>
+              <WishlistPage products={products} onAddToCart={handleAddToCart} />
+            </ProtectedRoute>
           }
         />
+
         <Route path="/product/:id" element={<ProductDetailsPage />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={2000} />

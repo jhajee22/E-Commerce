@@ -1,8 +1,11 @@
-import InfiniteScroll from "./InfiniteScroll";
-import CartPanel from "./Cart/CartPanel";
-import type { CartItem, ProductItem } from "../types/product";
-import { useWishlist } from "../context/WishlistContext";
+
+
 import { useNavigate } from "react-router-dom";
+import {toast} from "react-toastify";
+import type {CartItem, ProductItem} from "../types/product";
+import {useWishlist} from "../context/WishlistContext";
+import InfiniteScroll from "../Components/InfiniteScroll";
+import CartPanel from "../Components/Cart/CartPanel";
 
 type HomePageProps = {
   products: ProductItem[];
@@ -37,6 +40,15 @@ const HomePage = ({
 }: HomePageProps) => {
   const navigate = useNavigate();
   const { wishlist } = useWishlist();
+
+const handleLogout = () =>{
+localStorage.removeItem("accessToken");
+localStorage.removeItem("user");
+toast.success("Logged out Successfully");
+navigate("/");
+
+
+}
 
   return (
     <div className="main-container">
@@ -108,6 +120,10 @@ const HomePage = ({
               </span>
             )}
           </button>
+
+          <button onClick={handleLogout} className="btn btn-outline-danger">
+            Logout
+          </button>
         </div>
 
         <InfiniteScroll
@@ -126,8 +142,6 @@ const HomePage = ({
           handleIncreaseQuantity={handleIncreaseQuantity}
         />
       </div>
-
-      
     </div>
   );
 };

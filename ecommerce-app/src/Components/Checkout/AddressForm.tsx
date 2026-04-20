@@ -33,6 +33,7 @@ const fetchAddressFromPincode = async (pincode: string) => {
         ...prev,
         city: postOffice.District || "",
         state: postOffice.State || "",
+        country: postOffice.Country || "",
       }));
     } else {
       setPincodeError("Invalid pincode or no address found");
@@ -48,13 +49,13 @@ const fetchAddressFromPincode = async (pincode: string) => {
 
 const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
 const {name,value} = e.target;
-setAddress((prev)=>({
-...prev,
-[name]:value,
-}));
 if(name === "pincode"){
 setPincodeError(""); 
 }
+setAddress((prev) => ({
+  ...prev,
+  [name]: value,
+}));
 if(value.length === 6){
 fetchAddressFromPincode(value);
 }
@@ -120,7 +121,7 @@ return (
           </p>
         )}
       </div>
-      <div style={{ marginBottom: "12px" }}>
+      {/* <div style={{ marginBottom: "12px" }}>
         <label>Address Line</label>
         <textarea
           name="addressLine"
@@ -130,15 +131,15 @@ return (
           rows={4}
           style={{ width: "100%", padding: "10px", marginTop: "6px" }}
         />
-      </div>
+      </div> */}
       <div style={{ marginBottom: "12px" }}>
         <label>City</label>
         <input
           type="text"
           name="city"
           value={address.city}
-          onChange={handleChange}
-          placeholder="Enter City"
+          readOnly
+          placeholder="City will be auto filled"
           style={{ width: "100%", padding: "10px", marginTop: "6px" }}
         />
       </div>
@@ -148,8 +149,8 @@ return (
           type="text"
           name="state"
           value={address.state}
-          onChange={handleChange}
-          placeholder="Enter state"
+          readOnly
+          placeholder="State will be auto filled "
           style={{ width: "100%", padding: "10px", marginTop: "6px" }}
         />
       </div>
@@ -160,8 +161,8 @@ return (
           type="text"
           name="country"
           value={address.country}
-          onChange={handleChange}
-          placeholder="Enter country"
+          readOnly
+          placeholder="Country will be auto filled"
           style={{ width: "100%", padding: "10px", marginTop: "6px" }}
         />
       </div>

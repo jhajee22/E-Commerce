@@ -5,7 +5,6 @@ import {toast} from "react-toastify";
 import type {CartItem, ProductItem} from "../types/product";
 import {useWishlist} from "../context/WishlistContext";
 import InfiniteScroll from "../Components/InfiniteScroll";
-import CartPanel from "../Components/Cart/CartPanel";
 
 type HomePageProps = {
   products: ProductItem[];
@@ -54,7 +53,7 @@ const totalCartItems = cart.reduce ((sum,item)=>sum + item.quantity,0);
 
   return (
     <div className="main-container">
-      <div className="product-section">
+      <div className="product-section full width">
         <div
           style={{
             display: "flex",
@@ -69,7 +68,7 @@ const totalCartItems = cart.reduce ((sum,item)=>sum + item.quantity,0);
             placeholder="Search Products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ padding: "10px", width: "50%" }}
+            style={{ padding: "10px", minWidth: "250px", flex: 1 }}
           />
 
           <select
@@ -163,8 +162,6 @@ const totalCartItems = cart.reduce ((sum,item)=>sum + item.quantity,0);
           onAddToCart={handleAddToCart}
         />
       </div>
-
-      <div className="cart-section"></div>
     </div>
   );
 };

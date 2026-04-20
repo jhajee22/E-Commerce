@@ -1,16 +1,20 @@
-import type { ProductItem } from "../App";
-
+//import type { ProductItem } from "../App";
+import type { ProductItem } from "../types/product";
+import { useNavigate } from "react-router-dom";
 
 type ProductCardProps = {
-product:ProductItem;
-onAddToCart:(product:ProductItem)=>void;
-
-
+  product: ProductItem;
+  onAddToCart: (product: ProductItem) => void;
+  onAddToWishlist: (id: number) => void;
+  isWishlisted: boolean;
 };
 
-export const ProductCard = ({product,onAddToCart}:ProductCardProps)=>{
+export const ProductCard = ({product,onAddToCart,onAddToWishlist,isWishlisted}:ProductCardProps)=>{
 
-
+const navigate = useNavigate();
+const handleViewDetails = ()=>{
+navigate(`/product/${product.id}`);
+};
 const discountedPrice = (
 
 product.price - (product.price * product.discountPercentage)/100).toFixed(2);
@@ -40,15 +44,20 @@ return (
         </div>
         <div className="product-rating">
           <span className="star-rating">{"★"}</span>
-<span>{Math.floor(product.rating)}</span>
+          <span>{Math.floor(product.rating)}</span>
         </div>
       </div>
-<button onClick={() =>onAddToCart(product)} className="add-to-cart">Add to Cart</button>
-<div>
-
-
-
-</div>
+      <button onClick={handleViewDetails}>View Details</button>
+      <button
+        onClick={() => onAddToWishlist(product.id)}
+        disabled={isWishlisted}
+      >
+        {isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}
+      </button>
+      <button onClick={() => onAddToCart(product)} className="add-to-cart">
+        Add to Cart
+      </button>
+      <div></div>
     </div>
   </div>
 );

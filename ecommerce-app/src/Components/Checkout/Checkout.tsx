@@ -1,5 +1,6 @@
 import type {CartItem} from "../../types/product";
 import AddressForm from "./AddressForm";
+import Payment from "./Payment";
 
 type CheckoutProps = {
 cart:CartItem[];
@@ -43,10 +44,11 @@ return (
         </>
       )}
     </div>
-    <div style={{ marginTop: "20px" }}>
+    {/* <div style={{ marginTop: "20px" }}>
       <h3>Payment Method</h3>
       <p>Payment Option will come here</p>
-    </div>
+    </div> */}
+<Payment/>
     <button style={{ marginTop: "20px" }} disabled={cart.length === 0}>
       Place Order
     </button>

@@ -1,6 +1,5 @@
 import {useState} from "react"
 import type {AddressFormData} from "../../types/addressForm"
-import {get} from "mongoose";
 import {getAddressByPincode} from "../../services/addressService";
 
 const AddressForm = () =>{
